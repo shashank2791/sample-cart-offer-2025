@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,6 +13,15 @@ public class OfferRequest {
     private int restaurant_id;
     private String offer_type;
     private int offer_value;
-
     private List<String> customer_segment;
+
+    @Override
+    public String toString() {
+        return "OfferRequest{" +
+                "restaurant_id=" + restaurant_id +
+                ", offer_type='" + offer_type + '\'' +
+                ", offer_value=" + offer_value +
+                ", customer_segment=" + customer_segment +
+                '}';
+    }
 }
