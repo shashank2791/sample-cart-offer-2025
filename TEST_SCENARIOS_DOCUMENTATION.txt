@@ -33,8 +33,8 @@ TESTING SCOPE:
 - Business logic validation and edge case handling
 
 PERFECT ALIGNMENT ACHIEVED:
-- CSV Documentation: 26 test cases
-- Implementation: 26 test cases
+- CSV Documentation: 25 test cases
+- Implementation: 25 test cases
 - Complete API coverage with E2E integration workflows
 
 ================================================================================
@@ -48,7 +48,7 @@ src/test/java/com/springboot/
 ├── util/
 │   ├── TestDataBuilder.java - Test data creation utilities (with offer builders)
 │   └── ApiConstants.java - API constants and response messages
-└── CartOfferApplicationTests.java - Consolidated test file (26 test cases with true E2E)
+└── CartOfferApplicationTests.java - Consolidated test file (25 test cases with true E2E)
 
 ================================================================================
                      1. CART OFFER APPLICATION - E2E POSITIVE SCENARIOS
@@ -150,7 +150,7 @@ Total Test Cases: 11
 ================================================================================
 Class: CartOfferApplicationTests (Negative Test Methods)
 Focus: Error handling with invalid parameters, missing fields, and edge cases
-Total Test Cases: 16
+Total Test Cases: 14
 
 2.1 TEST CASE: Missing_Cart_Value_Parameter
     SCENARIO: Test offer application with missing cart_value parameter
@@ -182,68 +182,56 @@ Total Test Cases: 16
     EXPECTED: HTTP 400 Bad Request
     METHOD: testInvalidRestaurantIdZero()
 
-2.6 TEST CASE: No_Offers_Available
-    SCENARIO: Test offer application when no offers exist for restaurant
-    REQUEST: Cart Value=₹200, User ID=1, Restaurant ID=999 (no offers)
-    EXPECTED: HTTP 200 OK with original cart value (no discount)
-    METHOD: testNoOffersAvailable()
-
-2.7 TEST CASE: User_Segment_Mismatch
+2.6 TEST CASE: User_Segment_Mismatch
     SCENARIO: Test offer application when user segment doesn't match offer
     SETUP: Restaurant ID=888, offer for P3 segment only
     REQUEST: Cart Value=₹200, User ID=1 (P1), Restaurant ID=888
     EXPECTED: HTTP 200 OK with original cart value (no discount)
     METHOD: testUserSegmentMismatch()
 
-2.8 TEST CASE: Mock_Server_Unavailable
-    SCENARIO: Test offer application when user segment service is unavailable
-    REQUEST: Uses invalid mock server configuration to simulate failure
-    EXPECTED: HTTP 500 Internal Server Error or graceful handling
-    METHOD: testMockServerUnavailable()
-
-2.9 TEST CASE: Extremely_Large_Cart
+2.7 TEST CASE: Extremely_Large_Cart
     SCENARIO: Test offer application with extremely large cart value
     REQUEST: Cart Value=₹999,999,999, User ID=1, Restaurant ID=1
     EXPECTED: HTTP 400 Bad Request or graceful handling
     METHOD: testExtremelyLargeCart()
 
-2.10 TEST CASE: Missing_User_ID_Parameter
+2.8 TEST CASE: Missing_User_ID_Parameter
     SCENARIO: Test offer application with missing user_id parameter
     REQUEST: Raw JSON: {"cart_value":200,"restaurant_id":1} (missing user_id)
     EXPECTED: HTTP 400 Bad Request
     METHOD: testMissingUserIdParameter()
 
-2.11 TEST CASE: Missing_Restaurant_ID_Parameter
+2.9 TEST CASE: Missing_Restaurant_ID_Parameter
     SCENARIO: Test offer application with missing restaurant_id parameter
     REQUEST: Raw JSON: {"cart_value":200,"user_id":1} (missing restaurant_id)
     EXPECTED: HTTP 400 Bad Request
     METHOD: testMissingRestaurantIdParameter()
 
-2.12 TEST CASE: Empty_JSON_Body
+2.10 TEST CASE: Empty_JSON_Body
     SCENARIO: Test offer application with completely empty JSON request body
     REQUEST: {} (empty JSON)
     EXPECTED: HTTP 400 Bad Request
     METHOD: testEmptyJsonBody()
 
-2.13 TEST CASE: Null_Request_Body_Apply
+2.11 TEST CASE: Null_Request_Body_Apply
     SCENARIO: Test offer application with null request body
     REQUEST: POST /api/v1/cart/apply_offer with null body
     EXPECTED: HTTP 400 Bad Request
     METHOD: testNullRequestBodyApply()
 
-2.14 TEST CASE: Malformed_JSON_Apply
+2.12 TEST CASE: Malformed_JSON_Apply
     SCENARIO: Test offer application with malformed JSON syntax
     REQUEST: Raw JSON: {cart_value:200 user_id} (malformed)
     EXPECTED: HTTP 400 Bad Request
     METHOD: testMalformedJsonApply()
 
-2.15 TEST CASE: Very_Large_Cart_Value
-    SCENARIO: Test offer application with extremely large cart value
-    REQUEST: Cart Value=₹999,999,999, User ID=1, Restaurant ID=1
-    EXPECTED: HTTP 400 Bad Request or graceful handling
-    METHOD: testVeryLargeCartValue()
+2.13 TEST CASE: Negative_Cart_Value
+    SCENARIO: Test offer application with negative cart value
+    REQUEST: Cart Value=₹-100, User ID=1, Restaurant ID=1
+    EXPECTED: HTTP 400 Bad Request
+    METHOD: testNegativeCartValue()
 
-2.16 TEST CASE: Content_Type_Missing
+2.14 TEST CASE: Content_Type_Missing
     SCENARIO: Test offer application without Content-Type header
     REQUEST: POST /api/v1/cart/apply_offer without Content-Type header
     EXPECTED: HTTP 415 Unsupported Media Type
@@ -356,10 +344,10 @@ FINAL COVERAGE SUMMARY:
 - Total Test Classes: 1 (consolidated single file structure)
 - Total Test Cases: 25 (complete alignment with CSV documentation)
 - Positive Scenarios: 11 (E2E workflows with complete validation)
-- Negative Scenarios: 15 (error handling and validation)
+- Negative Scenarios: 14 (error handling and validation)
 
 API COVERAGE BREAKDOWN:
-- POST /api/v1/cart/apply_offer: 26 test cases (11 E2E-positive + 15 negative)
+- POST /api/v1/cart/apply_offer: 25 test cases (11 E2E-positive + 14 negative)
 
 COMPREHENSIVE SCENARIO COVERAGE:
 ├── BUSINESS LOGIC VALIDATION:
@@ -391,15 +379,15 @@ COMPREHENSIVE SCENARIO COVERAGE:
     ├── Comprehensive logging and debugging support
     ├── Unique test data strategy (no conflicts)
     ├── Organized package structure by functionality
-    └── Perfect CSV-Implementation alignment (26-26)
+    └── Perfect CSV-Implementation alignment (25-25)
 
 QUALITY METRICS:
-- HTTP Status Code Validation: 26/26 test cases
-- Error Message Validation: 16/16 negative test cases
+- HTTP Status Code Validation: 25/25 test cases
+- Error Message Validation: 14/14 negative test cases
 - E2E Integration Coverage: 10/10 cart application scenarios
 - Mock Service Integration: Used in all test scenarios
-- Unique Test Data: 26/26 test cases with isolated data
-- Documentation Alignment: 26/26 perfect CSV match
+- Unique Test Data: 25/25 test cases with isolated data
+- Documentation Alignment: 25/25 perfect CSV match
 
 ================================================================================
                                    CONCLUSION
@@ -411,8 +399,8 @@ and implementation. The streamlined approach ensures thorough testing of the cor
 business functionality while maintaining excellent maintainability.
 
 PRODUCTION READINESS ACHIEVEMENTS:
-├── 26 comprehensive test cases covering all critical paths and edge cases
-├── Perfect CSV-Implementation alignment (26-26) with single source of truth
+├── 25 comprehensive test cases covering all critical paths and edge cases
+├── Perfect CSV-Implementation alignment (25-25) with single source of truth
 ├── Complete E2E integration workflows with real API calls
 ├── Business logic edge cases thoroughly validated and documented
 ├── Error handling scenarios ensure robust API behavior under all conditions
