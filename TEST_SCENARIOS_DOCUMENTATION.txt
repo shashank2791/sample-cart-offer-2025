@@ -7,7 +7,7 @@ Date: 2025-08-28 (Consolidated Single File Structure)
 Test Framework: JUnit 4 with Spring Boot
 API Endpoint: POST /api/v1/cart/apply_offer
 Total Test Classes: 1 (Consolidated)
-Total Test Cases: 26
+Total Test Cases: 25
 
 ================================================================================
                                   OVERVIEW
@@ -354,7 +354,7 @@ ERROR HANDLING IMPROVEMENTS:
 
 FINAL COVERAGE SUMMARY:
 - Total Test Classes: 1 (consolidated single file structure)
-- Total Test Cases: 26 (complete alignment with CSV documentation)
+- Total Test Cases: 25 (complete alignment with CSV documentation)
 - Positive Scenarios: 11 (E2E workflows with complete validation)
 - Negative Scenarios: 15 (error handling and validation)
 

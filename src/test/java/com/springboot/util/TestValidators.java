@@ -73,7 +73,7 @@ public class TestValidators {
      * @param segmentWrapper The user segment response wrapper
      * @param expectedSegment The expected user segment
      */
-    public static void validateUserSegmentResponse(com.springboot.client.UserSegmentRestClient.HttpResponseWrapper<SegmentResponse> segmentWrapper, String expectedSegment) {
+    public static void validateUserSegmentResponse(UserSegmentRestClient.HttpResponseWrapper<SegmentResponse> segmentWrapper, String expectedSegment) {
         Assert.assertEquals("User segment API should return 200 OK", ApiConstants.HTTP_OK, segmentWrapper.getStatusCode());
         Assert.assertNotNull("Segment response should not be null", segmentWrapper.getResponse());
         Assert.assertEquals("User segment should match expected", expectedSegment, segmentWrapper.getResponse().getSegment());
@@ -244,6 +244,7 @@ public class TestValidators {
      * Validate that API correctly handles invalid requests
      * @param responseWrapper The response wrapper
      * @param operationDescription Description of the operation
+     * Needs to be modified as per requirement and contract
      */
     public static void validateInvalidRequestHandling(HttpResponseWrapper<?> responseWrapper, String operationDescription) {
         System.out.println(" Response Status: " + responseWrapper.getStatusCode());

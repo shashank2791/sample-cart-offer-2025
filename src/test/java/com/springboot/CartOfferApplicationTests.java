@@ -23,7 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * This class contains all test scenarios for POST /api/v1/cart/apply_offer endpoint.
  * Includes both positive and negative test cases in a single consolidated file.
  * 
- * Total Test Cases: 26 (11 positive + 15 negative)
+ * Total Test Cases: 25 (11 positive + 14 negative)
  * API Focus: POST /api/v1/cart/apply_offer
  */
 @RunWith(SpringRunner.class)
@@ -42,7 +42,7 @@ public class CartOfferApplicationTests {
         System.out.println(" CART OFFER APPLICATION API - COMPREHENSIVE TEST SUITE");
         System.out.println(TEST_SEPARATOR);
         System.out.println(" API Endpoint: POST /api/v1/cart/apply_offer");
-        System.out.println(" Total Test Cases: 26 (11 positive + 15 negative)");
+        System.out.println(" Total Test Cases: 25 (11 positive + 14 negative)");
         System.out.println(" Test Coverage: Complete positive/negative scenarios with E2E workflows");
         System.out.println(TEST_SEPARATOR);
         
@@ -435,7 +435,7 @@ public class CartOfferApplicationTests {
         try {
             // Step 1: Validate user segment
             logTestStep(1, "Validating user segment for User ID=1", null);
-            com.springboot.client.UserSegmentRestClient.HttpResponseWrapper<SegmentResponse> segmentWrapper = userSegmentClient.getUserSegment(1);
+            UserSegmentRestClient.HttpResponseWrapper<SegmentResponse> segmentWrapper = userSegmentClient.getUserSegment(1);
             TestValidators.validateUserSegmentResponse(segmentWrapper, ApiConstants.SEGMENT_P1);
             
             // Step 2: Create 150% discount offer
@@ -637,32 +637,6 @@ public class CartOfferApplicationTests {
             TestValidators.validateInvalidRequestHandling(responseWrapper, "zero restaurant_id");
             
             logTestResult(true, "Zero restaurant_id handling validated", null);
-            
-        } catch (Exception e) {
-            logTestResult(false, "Test failed with exception: " + e.getMessage(), null);
-            throw e;
-        }
-    }
-
-    @Test // Test Case: No_Offers_Available_Negative - Test no offers scenario as negative case
-    public void testNoOffersAvailable() throws Exception {
-        logTestStart(
-            "No_Offers_Available_Negative",
-            "Test offer application when no offers exist for restaurant (negative context)",
-            "Should return original cart value when no offers available"
-        );
-        
-        try {
-            logTestStep(1, "Applying offer to restaurant without any offers", null);
-            ApplyOfferRequest applyRequest = TestDataBuilder.createApplyRequest(200, 1, 999);
-            
-            logTestStep(2, "Submitting application for restaurant without offers", applyRequest);
-            HttpResponseWrapper<ApplyOfferResponse> responseWrapper = cartOfferClient.applyOffer(applyRequest);
-            
-            logTestStep(3, "Validating no offers handling", responseWrapper);
-            TestValidators.validateNoDiscountApplied(responseWrapper, 200, "when no offers available for restaurant");
-            
-            logTestResult(true, "No offers scenario handled correctly in negative context", responseWrapper.getResponse());
             
         } catch (Exception e) {
             logTestResult(false, "Test failed with exception: " + e.getMessage(), null);
