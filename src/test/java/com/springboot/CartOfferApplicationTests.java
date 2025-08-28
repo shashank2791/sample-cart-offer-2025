@@ -2,8 +2,8 @@ package com.springboot;
 
 import com.springboot.client.CartOfferRestClient;
 import com.springboot.client.CartOfferRestClient.HttpResponseWrapper;
+import com.springboot.client.OfferRestClient;
 import com.springboot.client.UserSegmentRestClient;
-import com.springboot.controller.ApiResponse;
 import com.springboot.controller.ApplyOfferRequest;
 import com.springboot.controller.ApplyOfferResponse;
 import com.springboot.controller.OfferRequest;
@@ -31,6 +31,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class CartOfferApplicationTests {
 
     private static CartOfferRestClient cartOfferClient;
+    private static OfferRestClient offerClient;
     private static UserSegmentRestClient userSegmentClient;
     private static final String TEST_SEPARATOR = "################################################################################";
     private static final String STEP_SEPARATOR = "----------------------------------------";
@@ -41,13 +42,15 @@ public class CartOfferApplicationTests {
         System.out.println(" CART OFFER APPLICATION API - COMPREHENSIVE TEST SUITE");
         System.out.println(TEST_SEPARATOR);
         System.out.println(" API Endpoint: POST /api/v1/cart/apply_offer");
-        System.out.println(" Total Test Cases: 25 (10 positive + 15 negative)");
+        System.out.println(" Total Test Cases: 26 (11 positive + 15 negative)");
         System.out.println(" Test Coverage: Complete positive/negative scenarios with E2E workflows");
         System.out.println(TEST_SEPARATOR);
         
         cartOfferClient = new CartOfferRestClient();
+        offerClient = new OfferRestClient();
         userSegmentClient = new UserSegmentRestClient();
         System.out.println(" CartOfferRestClient initialized");
+        System.out.println(" OfferRestClient initialized");
         System.out.println(" UserSegmentRestClient initialized");
         System.out.println(" Starting comprehensive cart application API test execution...");
         System.out.println(TEST_SEPARATOR);
@@ -102,8 +105,8 @@ public class CartOfferApplicationTests {
             // Step 2: Create FLATX offer (E2E requirement)
             logTestStep(2, "Creating FLATX offer via API", null);
             OfferRequest offerRequest = TestDataBuilder.createFlatXOffer(101, 50, ApiConstants.SEGMENT_P1);
-            HttpResponseWrapper<ApiResponse> createResponseWrapper = cartOfferClient.createOffer(offerRequest);
-            TestValidators.validateOfferCreationSuccess(createResponseWrapper);
+            boolean offerCreated = offerClient.addOffer(offerRequest);
+            TestValidators.validateOfferCreationSuccess(offerCreated);
             System.out.println(" Offer Created Successfully: " + offerRequest);
             
             // Step 3: Apply offer to cart (Main API under test)
@@ -144,8 +147,8 @@ public class CartOfferApplicationTests {
             // Step 2: Create PERCENT offer (E2E requirement)
             logTestStep(2, "Creating PERCENT offer via API", null);
             OfferRequest offerRequest = TestDataBuilder.createPercentOffer(102, 20, ApiConstants.SEGMENT_P1);
-            HttpResponseWrapper<ApiResponse> createResponseWrapper = cartOfferClient.createOffer(offerRequest);
-            TestValidators.validateOfferCreationSuccess(createResponseWrapper);
+            boolean offerCreated = offerClient.addOffer(offerRequest);
+            TestValidators.validateOfferCreationSuccess(offerCreated);
             System.out.println(" Offer Created Successfully: " + offerRequest);
             
             // Step 3: Apply offer to cart (Main API under test)
@@ -216,8 +219,8 @@ public class CartOfferApplicationTests {
             // Step 2: Create offer for P3 segment only (mismatch with P1 user)
             logTestStep(2, "Creating P3-only offer via API", null);
             OfferRequest offerRequest = TestDataBuilder.createPercentOffer(104, 25, "p3");
-            HttpResponseWrapper<ApiResponse> createResponseWrapper = cartOfferClient.createOffer(offerRequest);
-            TestValidators.validateOfferCreationSuccess(createResponseWrapper);
+            boolean offerCreated = offerClient.addOffer(offerRequest);
+            TestValidators.validateOfferCreationSuccess(offerCreated);
             
             // Step 3: Apply offer to cart (should not apply due to segment mismatch)
             logTestStep(3, "Applying P3 offer to P1 user", null);
@@ -253,8 +256,8 @@ public class CartOfferApplicationTests {
             // Step 2: Create offer for both P1 and P2 segments
             logTestStep(2, "Creating multi-segment offer (P1,P2) via API", null);
             OfferRequest offerRequest = TestDataBuilder.createPercentOffer(105, 10, ApiConstants.SEGMENT_P1, ApiConstants.SEGMENT_P2);
-            HttpResponseWrapper<ApiResponse> createResponseWrapper = cartOfferClient.createOffer(offerRequest);
-            TestValidators.validateOfferCreationSuccess(createResponseWrapper);
+            boolean offerCreated = offerClient.addOffer(offerRequest);
+            TestValidators.validateOfferCreationSuccess(offerCreated);
             
             // Step 3: Apply multi-segment offer to P1 user
             logTestStep(3, "Applying multi-segment offer to P1 user", null);
@@ -290,8 +293,8 @@ public class CartOfferApplicationTests {
             // Step 2: Create large FLATX offer (₹500 off)
             logTestStep(2, "Creating large FLATX offer (₹500) via API", null);
             OfferRequest offerRequest = TestDataBuilder.createFlatXOffer(106, 500, ApiConstants.SEGMENT_P1);
-            HttpResponseWrapper<ApiResponse> createResponseWrapper = cartOfferClient.createOffer(offerRequest);
-            TestValidators.validateOfferCreationSuccess(createResponseWrapper);
+            boolean offerCreated = offerClient.addOffer(offerRequest);
+            TestValidators.validateOfferCreationSuccess(offerCreated);
             
             // Step 3: Apply large discount to small cart (₹100)
             logTestStep(3, "Applying ₹500 discount to ₹100 cart", null);
@@ -327,8 +330,8 @@ public class CartOfferApplicationTests {
             // Step 2: Create 100% discount offer
             logTestStep(2, "Creating 100% discount offer via API", null);
             OfferRequest offerRequest = TestDataBuilder.createPercentOffer(107, 100, ApiConstants.SEGMENT_P1);
-            HttpResponseWrapper<ApiResponse> createResponseWrapper = cartOfferClient.createOffer(offerRequest);
-            TestValidators.validateOfferCreationSuccess(createResponseWrapper);
+            boolean offerCreated = offerClient.addOffer(offerRequest);
+            TestValidators.validateOfferCreationSuccess(offerCreated);
             
             // Step 3: Apply 100% discount to cart
             logTestStep(3, "Applying 100% discount to cart", null);
@@ -364,8 +367,8 @@ public class CartOfferApplicationTests {
             // Step 2: Create FLATX offer
             logTestStep(2, "Creating FLATX offer via API", null);
             OfferRequest offerRequest = TestDataBuilder.createFlatXOffer(108, 50, ApiConstants.SEGMENT_P1);
-            HttpResponseWrapper<ApiResponse> createResponseWrapper = cartOfferClient.createOffer(offerRequest);
-            TestValidators.validateOfferCreationSuccess(createResponseWrapper);
+            boolean offerCreated = offerClient.addOffer(offerRequest);
+            TestValidators.validateOfferCreationSuccess(offerCreated);
             
             // Step 3: Apply FLATX discount to zero cart
             logTestStep(3, "Applying ₹50 discount to ₹0 cart", null);
@@ -401,8 +404,8 @@ public class CartOfferApplicationTests {
             // Step 2: Create 15% discount offer
             logTestStep(2, "Creating 15% discount offer via API", null);
             OfferRequest offerRequest = TestDataBuilder.createPercentOffer(109, 15, ApiConstants.SEGMENT_P1);
-            HttpResponseWrapper<ApiResponse> createResponseWrapper = cartOfferClient.createOffer(offerRequest);
-            TestValidators.validateOfferCreationSuccess(createResponseWrapper);
+            boolean offerCreated = offerClient.addOffer(offerRequest);
+            TestValidators.validateOfferCreationSuccess(offerCreated);
             
             // Step 3: Apply 15% discount to ₹333 cart (15% of 333 = 49.95)
             logTestStep(3, "Applying 15% discount to ₹333 cart", null);
@@ -438,8 +441,8 @@ public class CartOfferApplicationTests {
             // Step 2: Create 150% discount offer
             logTestStep(2, "Creating 150% discount offer via API", null);
             OfferRequest offerRequest = TestDataBuilder.createPercentOffer(111, 150, ApiConstants.SEGMENT_P1);
-            HttpResponseWrapper<ApiResponse> createResponseWrapper = cartOfferClient.createOffer(offerRequest);
-            TestValidators.validateOfferCreationSuccess(createResponseWrapper);
+            boolean offerCreated = offerClient.addOffer(offerRequest);
+            TestValidators.validateOfferCreationSuccess(offerCreated);
             
             // Step 3: Apply 150% discount to cart
             logTestStep(3, "Applying 150% discount to cart", null);
@@ -475,14 +478,14 @@ public class CartOfferApplicationTests {
             // Step 2: Create first offer (FLATX ₹25)
             logTestStep(2, "Creating first offer (FLATX ₹25) via API", null);
             OfferRequest offer1 = TestDataBuilder.createFlatXOffer(110, 25, ApiConstants.SEGMENT_P1);
-            HttpResponseWrapper<ApiResponse> create1Wrapper = cartOfferClient.createOffer(offer1);
-            TestValidators.validateOfferCreationSuccess(create1Wrapper);
+            boolean offer1Created = offerClient.addOffer(offer1);
+            TestValidators.validateOfferCreationSuccess(offer1Created);
             
             // Step 3: Create second offer (PERCENT 10%)
             logTestStep(3, "Creating second offer (PERCENT 10%) via API", null);
             OfferRequest offer2 = TestDataBuilder.createPercentOffer(110, 10, ApiConstants.SEGMENT_P1);
-            HttpResponseWrapper<ApiResponse> create2Wrapper = cartOfferClient.createOffer(offer2);
-            TestValidators.validateOfferCreationSuccess(create2Wrapper);
+            boolean offer2Created = offerClient.addOffer(offer2);
+            TestValidators.validateOfferCreationSuccess(offer2Created);
             
             // Step 4: Apply offers to cart (should use first matching offer)
             logTestStep(4, "Applying offers to cart - testing offer selection", null);
@@ -679,8 +682,8 @@ public class CartOfferApplicationTests {
             // Step 1: Create offer for P3 segment
             logTestStep(1, "Creating P3 segment offer via API", null);
             OfferRequest offerRequest = TestDataBuilder.createPercentOffer(888, 25, "p3");
-            HttpResponseWrapper<ApiResponse> createResponseWrapper = cartOfferClient.createOffer(offerRequest);
-            TestValidators.validateOfferCreationSuccess(createResponseWrapper);
+            boolean offerCreated = offerClient.addOffer(offerRequest);
+            TestValidators.validateOfferCreationSuccess(offerCreated);
             
             // Step 2: Apply with P1 user (segment mismatch)
             logTestStep(2, "Applying P3 offer to P1 user", null);

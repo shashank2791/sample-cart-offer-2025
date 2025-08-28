@@ -1,7 +1,6 @@
 package com.springboot.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.springboot.controller.ApiResponse;
 import com.springboot.controller.ApplyOfferRequest;
 import com.springboot.controller.ApplyOfferResponse;
 import com.springboot.controller.OfferRequest;
@@ -24,17 +23,6 @@ public class CartOfferRestClient {
         this.objectMapper = new ObjectMapper();
     }
     
-    /**
-     * Create a new offer for a restaurant (for E2E testing)
-     * @param offerRequest The offer details
-     * @return HttpResponseWrapper with status code and response
-     * @throws Exception if API call fails
-     */
-    public HttpResponseWrapper<ApiResponse> createOffer(OfferRequest offerRequest) throws Exception {
-        String endpoint = baseUrl + "/api/v1/offer";
-        return postRequestWithStatus(endpoint, offerRequest, ApiResponse.class);
-    }
-
     /**
      * Apply an offer to a user's cart
      * @param applyRequest The cart and user details

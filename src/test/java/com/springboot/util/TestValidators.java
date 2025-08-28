@@ -2,7 +2,6 @@ package com.springboot.util;
 
 import com.springboot.client.CartOfferRestClient.HttpResponseWrapper;
 import com.springboot.client.UserSegmentRestClient;
-import com.springboot.controller.ApiResponse;
 import com.springboot.controller.ApplyOfferResponse;
 import com.springboot.controller.SegmentResponse;
 import org.junit.Assert;
@@ -119,39 +118,12 @@ public class TestValidators {
     // ==================== OFFER CREATION VALIDATIONS ====================
     
     /**
-     * Validate successful offer creation response
-     * @param createResponseWrapper The offer creation response wrapper
+     * Validate successful offer creation response (boolean return type)
+     * @param offerCreated The boolean result from offer creation
      */
-    public static void validateOfferCreationSuccess(HttpResponseWrapper<ApiResponse> createResponseWrapper) {
-        validateSuccessStatus(createResponseWrapper, "Offer creation API");
-        Assert.assertNotNull("Create response should not be null", createResponseWrapper.getResponse());
-        Assert.assertEquals(
-            "Offer creation should succeed", 
-            ApiConstants.SUCCESS_RESPONSE, 
-            createResponseWrapper.getResponse().getResponse_msg()
-        );
-        
-        // TODO: Uncomment after API provides offer ID in response
-        // Assert.assertNotNull("Offer ID should be provided in response", 
-        //     createResponseWrapper.getResponse().getOfferId());
-        // Assert.assertTrue("Offer ID should be positive", 
-        //     createResponseWrapper.getResponse().getOfferId() > 0);
-    }
-    
-    /**
-     * Validate offer creation failure - expects appropriate error response
-     * @param createResponseWrapper The offer creation response wrapper
-     * @param expectedErrorMessage Expected error message content
-     */
-    public static void validateOfferCreationFailure(HttpResponseWrapper<ApiResponse> createResponseWrapper, String expectedErrorMessage) {
-        // TODO: Uncomment after API properly implements offer creation validation
-        // validateBadRequestStatus(createResponseWrapper, "Offer creation failure");
-        // Assert.assertTrue("Error message should contain: " + expectedErrorMessage,
-        //     createResponseWrapper.getResponseBody().toLowerCase().contains(expectedErrorMessage.toLowerCase()));
-        
-        // Current implementation validation (remove after API fix)
-        TestValidators.validateInvalidRequestHandling(createResponseWrapper, "offer creation with " + expectedErrorMessage);
-        System.out.println(" Offer creation validation for " + expectedErrorMessage + " completed");
+    public static void validateOfferCreationSuccess(boolean offerCreated) {
+        Assert.assertTrue("Offer creation should succeed", offerCreated);
+        System.out.println(" Offer Created Successfully");
     }
 
     // ==================== CART OFFER APPLICATION VALIDATIONS ====================
